@@ -11,7 +11,10 @@ async function ReadGenerate(obj) {
 
   const nomeGerado = `${nomes[nomesIdx].nome} ${apelidos[apelidosIdx].apelido}`;
 
-  await InsertGeneratedNome({ nome: nomeGerado });
+  await InsertGeneratedNome({
+    nome: nomeGerado,
+    date: new Date().toDateString(),
+  });
 
   return nomeGerado;
 }

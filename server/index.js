@@ -1,16 +1,19 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3030;
+const cors = require("cors");
+
+app.use(cors());
 
 app.use(express.json());
 
-const apelidos = require('./routes/apelidos')
-const nomes = require('./routes/nomes')
-const generater = require('./routes/generater')
+const apelidos = require("./routes/apelidos");
+const nomes = require("./routes/nomes");
+const generater = require("./routes/generater");
 
-app.use('/API/apelidos', apelidos)
-app.use('/API/nomes', nomes)
-app.use('/API/generater', generater)
+app.use("/API/apelidos", apelidos);
+app.use("/API/nomes", nomes);
+app.use("/API/generater", generater);
 
 app.listen(port, () => {
   console.log(
