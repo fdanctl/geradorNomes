@@ -5,7 +5,7 @@ export default function Button() {
   const [nomes, setNomes] = useState("");
 
   const handlerBtn = async () => {
-    const res = await fetch("http://localhost:3000/API/generator");
+    const res = await fetch("http://localhost:3030/API/generater");
     const data = await res.json();
     setNomes(data);
   };
