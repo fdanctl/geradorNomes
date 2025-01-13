@@ -1,23 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const getNomes = async () => {
-  const res = await fetch("http://localhost:3030/API/nomes");
-  const data = await res.json();
-  console.log(data);
-  return data;
-};
-
-const getApelidos = async () => {
-  const res = await fetch("http://localhost:3030/API/apelidos");
-  const data = await res.json();
-  console.log(data);
-  return data;
-};
 export default function AdicionarNomes() {
   const [apelido, setApelido] = useState("");
   const [nome, setNome] = useState("");
   const [nomes, setNomes] = useState([]);
   const [apelidos, setApelidos] = useState([]);
+
+  useEffect(() => {
+    const fetchNomes = async () => {
+      const ap = await DoApelidos();
+      const nom = await DoNomes();
+      setApelidos(ap | []);
+      setNomes(nom | []);
+    };
+    fetchNomes();
+  }, []);
 
   async function DoApelidos() {
     const options = {
@@ -28,7 +25,7 @@ export default function AdicionarNomes() {
     const res = await fetch("http://localhost:3030/API/apelidos", options);
     const json = await res.json();
     console.log(json);
-    await setApelidos(json);
+    return json;
   }
 
   async function DoNomes() {
@@ -39,8 +36,7 @@ export default function AdicionarNomes() {
 
     const res = await fetch("http://localhost:3030/API/nomes", options);
     const json = await res.json();
-    console.log(json);
-    await setNomes(json);
+    return json;
   }
 
   const handlerNomeChange = async (event) => {
@@ -61,6 +57,10 @@ export default function AdicionarNomes() {
       .then((response) => response.json())
       .then((response) => console.log(response))
       .catch((err) => console.error(err));
+
+    const nom = await DoNomes();
+    setNomes(nom | []);
+    setNome("");
   };
   const handlerApelidoChange = async (event) => {
     setApelido(event.target.value);
@@ -80,6 +80,10 @@ export default function AdicionarNomes() {
       .then((response) => response.json())
       .then((response) => console.log(response))
       .catch((err) => console.error(err));
+
+    const ap = await DoApelidos();
+    setApelidos(ap | []);
+    setApelido("");
   };
 
   return (
