@@ -1,6 +1,6 @@
 const { getMongoCollection } = require("./mongodb");
-const col = "gerador-nomes";
-const db = "apelidos";
+const col = "apelidos";
+const db = "gerador-nomes";
 
 async function InsertApelido(obj) {
   const collection = await getMongoCollection(db, col);
