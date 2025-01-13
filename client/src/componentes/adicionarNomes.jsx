@@ -1,11 +1,47 @@
 import { useState } from "react";
 
+const getNomes = async () => {
+  const res = await fetch("http://localhost:3030/API/nomes");
+  const data = await res.json();
+  console.log(data);
+  return data;
+};
+
+const getApelidos = async () => {
+  const res = await fetch("http://localhost:3030/API/apelidos");
+  const data = await res.json();
+  console.log(data);
+  return data;
+};
 export default function AdicionarNomes() {
   const [apelido, setApelido] = useState("");
   const [nome, setNome] = useState("");
+  const [nomes, setNomes] = useState([]);
+  const [apelidos, setApelidos] = useState([]);
 
-  const res = fetch("http://localhost:3030/API/nomes");
-  const data = res.json();
+  async function DoApelidos() {
+    const options = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const res = await fetch("http://localhost:3030/API/apelidos", options);
+    const json = await res.json();
+    console.log(json);
+    await setApelidos(json);
+  }
+
+  async function DoNomes() {
+    const options = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const res = await fetch("http://localhost:3030/API/nomes", options);
+    const json = await res.json();
+    console.log(json);
+    await setNomes(json);
+  }
 
   const handlerNomeChange = async (event) => {
     setNome(event.target.value);
@@ -51,9 +87,9 @@ export default function AdicionarNomes() {
       <div>
         <h3>Nomes</h3>
         <ul>
-            {data.map((e) => (
-                <li>{e}</li>
-            ))}
+          {nomes.map((e) => (
+            <li>{e}</li>
+          ))}
         </ul>
         <input
           type="text"
@@ -64,6 +100,11 @@ export default function AdicionarNomes() {
       </div>
       <div>
         <h3>Apelidos</h3>
+        <ul>
+          {apelidos.map((e) => (
+            <li>{e}</li>
+          ))}
+        </ul>
         <input
           type="text"
           onChange={(event) => handlerApelidoChange(event)}
