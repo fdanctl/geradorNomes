@@ -4,6 +4,12 @@ import "./button.css";
 export default function Button() {
   const [nomes, setNomes] = useState("");
 
+  document.body.onkeyup = async (e) => {
+    if (e.key === " ") {
+      await handlerBtn();
+    }
+  };
+
   const handlerBtn = async () => {
     const res = await fetch("http://localhost:3030/API/generater");
     const data = await res.json();
